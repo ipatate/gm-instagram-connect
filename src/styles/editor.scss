@@ -1,0 +1,105 @@
+@import '../../../../assets/css/theme/blocks/events.scss';
+
+.btn-icon-after {
+    display: flex;
+    align-items: center;
+    padding-right: 5px;
+
+    &::after {
+        display: flex;
+        content: '';
+        width: 20px;
+        height: 20px;
+        margin-left: 10px;
+        transform: translateX(-5px);
+        transition: all .3s;
+    }
+}
+
+.btn-arrow {
+    &::after {
+        background: url('../../../../assets/media/arrow-btn-blue.svg') no-repeat center;
+    }
+
+    &:hover::after {
+        background: url('../../../../assets/media/arrow-btn-white.svg') no-repeat center;
+        transform: translateX(2px);
+    }
+}
+
+.wp-block-gm-events {
+    font-family: $fontFamily!important;
+}
+
+.gm-events_list {
+    padding: 10px 0;
+}
+
+.gm-event_card {
+    flex-basis: calc(100% - 10px);
+    margin: 10px;
+    padding: 100px 15px 15px;
+    min-height: 250px;
+    p {
+        font-size: 16px;
+    }
+
+    @include media-breakpoint-up(sm) {
+        flex-basis: calc(50% - 20px);
+    }
+    @include media-breakpoint-up(md) {
+        flex-basis: calc(33% - 20px);
+    }
+    @include media-breakpoint-up(lg) {
+        flex-basis: calc(25% - 20px);
+    }
+}
+
+.gm-event_card-title {
+    line-height: 31px!important;
+    margin: 10px 0 30px 0;
+    font-size: 25px!important;
+    font-weight: normal!important;
+}
+
+
+.gm-event_card-cat {
+    min-height: 20px;
+}
+
+.gm-event_card-date {
+    top: 15px;
+    right: 15px;
+    width: 80px;
+    height: 80px;
+    padding: 5px;
+
+    strong {
+        height: 50px;
+        font-size: 35px;
+    }
+
+    span {
+        top: -6px;
+        font-size: 14px;
+    }
+    span:last-child {
+        top: -13px;
+        font-size: 15px;
+    }
+}
+
+.gm-event_card-button {
+    padding: 10px 7.5px 0;
+    &::after {
+        background: url('../../../../assets/media/arrow-btn.svg') no-repeat;
+    }
+}
+
+.gm-events_link-list {
+    font-family: $fontFamily!important;
+    margin: 20px 10px;
+    a {
+        padding: 10px 5px 10px 20px;
+    }
+}

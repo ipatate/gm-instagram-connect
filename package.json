@@ -1,0 +1,27 @@
+{
+  "name": "gm-instagram-connect",
+  "version": "0.1.0",
+  "description": "Block for display instagram feed",
+  "author": "The WordPress Contributors",
+  "license": "GPL-2.0-or-later",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "wp-scripts build",
+    "format": "wp-scripts format",
+    "lint:css": "wp-scripts lint-style",
+    "lint:js": "wp-scripts lint-js",
+    "start": "wp-scripts start",
+    "packages-update": "wp-scripts packages-update"
+  },
+  "dependencies": {
+    "@wordpress/block-editor": "^6.1.4",
+    "@wordpress/blocks": "^9.1.4",
+    "@wordpress/i18n": "^4.1.1"
+  },
+  "devDependencies": {
+    "@wordpress/components": "^14.1.3",
+    "@wordpress/data": "^5.1.2",
+    "@wordpress/element": "^3.1.1",
+    "@wordpress/scripts": "^16.1.2"
+  }
+}

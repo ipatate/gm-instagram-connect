@@ -1,0 +1,12 @@
+{
+  "name": "goodmotion/instagramconnect",
+  "require": {
+    "gilbitron/php-simplecache": "^1.4"
+  },
+  "authors": [
+    {
+      "name": "Patrick Faramaz",
+      "email": "faramazpat@gmail.com"
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "apiVersion": 2,
+  "name": "goodmotion/instagram",
+  "title": "GM Instagram Feed",
+  "category": "goodmotion-blocks",
+  "icon": "columns",
+  "description": "Block for display instagram feed.",
+  "supports": {
+    "html": false
+  },
+  "textdomain": "gm-instagram-connect",
+  "editorScript": "file:./build/index.js",
+  "editorStyle": "file:./build/index.css",
+  "style": "file:./build/style-index.css"
+}
