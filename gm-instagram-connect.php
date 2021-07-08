@@ -22,38 +22,57 @@ GMInstagramConnect\inc\main();
 
 function block_init()
 {
-    register_block_type_from_metadata(__DIR__, [
-        "render_callback" => __NAMESPACE__ . '\render_callback'
-    ]);
+	register_block_type_from_metadata(__DIR__, [
+		"render_callback" => __NAMESPACE__ . '\render_callback'
+	]);
 }
 add_action('init', __NAMESPACE__ . '\block_init');
 
 
 function render_callback($attributes, $content)
 {
-    $feed =
-        GMInstagramConnect\inc\getFeed();
-    $b = '<div class="gm-instagram-feed"><div class="gm-instagram-feed-container">';
-    foreach ($feed->data as $key => $val) {
-        $type = $val->media_type;
-        $media = $type === 'VIDEO' ? $val->thumbnail_url : $val->media_url;
-        $b .= '<div class="gm-instagram-feed-element">'
-            . '<a href="' . $val->permalink . '" rel="nofollow" target="_blank" title="' . $val->caption  . '">'
-            . '<img src="' . $media . '" alt="' . $val->caption  . '" loading="lazy" /></a></div>';
-    }
-    $b .= '</div></div>';
-    return $b;
+	$feed =
+		GMInstagramConnect\inc\getFeed();
+	$b = '<div class="gm-instagram-feed"><div class="gm-instagram-feed-container">';
+	foreach ($feed->data as $key => $val) {
+		$type = $val->media_type;
+		$b .= '<div class="gm-instagram-feed-element">'
+			. '<a href="' . $val->permalink . '" rel="nofollow" target="_blank" title="' . $val->caption  . '">' . getSvg() . '</a>'
+			. ($type === 'VIDEO' ? getVideo($val) : getImage($val))
+			. '</div>';
+	}
+	$b .= '</div></div>';
+	return $b;
 }
 
-// <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin:auto;display:block;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
-// <g>
-//   <animateTransform attributeName="transform" type="rotate" values="0 50 50;90 50 50" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animateTransform><circle cx="50" cy="50" r="30" stroke="#450b40" fill="none" stroke-dasharray="23.561944901923447 188.49555921538757" stroke-linecap="round" stroke-width="10" transform="rotate(0 50 50)">
-//   <animate attributeName="stroke" values="#450b40;#f47e60" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animate>
-// </circle><circle cx="50" cy="50" r="30" stroke="#f47e60" fill="none" stroke-dasharray="23.561944901923447 188.49555921538757" stroke-linecap="round" stroke-width="10" transform="rotate(90 50 50)">
-//   <animate attributeName="stroke" values="#f47e60;#f8b26a" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animate>
-// </circle><circle cx="50" cy="50" r="30" stroke="#f8b26a" fill="none" stroke-dasharray="23.561944901923447 188.49555921538757" stroke-linecap="round" stroke-width="10" transform="rotate(180 50 50)">
-//   <animate attributeName="stroke" values="#f8b26a;#abbd81" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animate>
-// </circle><circle cx="50" cy="50" r="30" stroke="#abbd81" fill="none" stroke-dasharray="23.561944901923447 188.49555921538757" stroke-linecap="round" stroke-width="10" transform="rotate(270 50 50)">
-//   <animate attributeName="stroke" values="#abbd81;#450b40" keyTimes="0;1" dur="1s" repeatCount="indefinite"></animate>
-// </circle></g>
-// </svg>
+
+function getSvg()
+{
+	return '
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 512 640" width="16px" enable-background="new 0 0 512 512" xml:space="preserve"><g><path d="M472.021,39.991c-53.325-53.311-139.774-53.311-193.084,0l-76.184,76.154c6.031-0.656,12.125-0.938,18.25-0.938   c19.28,0,38.028,3.063,55.777,8.968l43.17-43.155c14.827-14.843,34.545-22.999,55.513-22.999c20.97,0,40.688,8.156,55.515,22.999   c14.828,14.812,22.981,34.499,22.981,55.498c0,20.968-8.153,40.686-22.981,55.498l-84.465,84.466   C331.687,291.326,311.968,299.48,291,299.48c-21,0-40.686-8.154-55.528-22.998c-7.219-7.188-12.843-15.563-16.718-24.688   c-9.625,0.531-18.624,4.531-25.499,11.405l-22.499,22.529c6.156,11.405,14.062,22.155,23.687,31.813   c53.31,53.313,139.774,53.313,193.099,0l84.48-84.497C525.316,179.736,525.316,93.302,472.021,39.991z"/><path d="M291.905,396.76c-19.312,0-38.248-3.125-56.402-9.281l-43.467,43.469c-14.812,14.844-34.529,22.999-55.497,22.999   c-20.968,0-40.654-8.155-55.498-22.999c-14.843-14.813-22.999-34.529-22.999-55.498s8.156-40.688,22.999-55.529l84.465-84.465   c14.843-14.812,34.53-22.968,55.498-22.968c20.999,0,40.686,8.156,55.512,22.968c7.22,7.218,12.857,15.593,16.75,24.717   c9.656-0.5,18.671-4.531,25.546-11.405l22.468-22.499c-6.156-11.438-14.078-22.187-23.718-31.843   c-53.31-53.311-139.774-53.311-193.084,0l-84.465,84.497c-53.341,53.313-53.341,139.744,0,193.086   c53.31,53.313,139.744,53.313,193.053,0l76.058-76.059c-5.671,0.529-11.405,0.813-17.187,0.813L291.905,396.76L291.905,396.76z"/></g></svg>';
+}
+
+function getPauseSvg()
+{
+	return '
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xml:space="preserve" version="1.1"  class="gm-pause-icon" width="26px" style="shape-rendering:geometricPrecision;text-rendering:geometricPrecision;image-rendering:optimizeQuality;" viewBox="0 0 847 1058.75" x="0px" y="0px" fill-rule="evenodd" clip-rule="evenodd"><g><path class="fil0" d="M277 835l-52 0c-37,0 -67,-30 -67,-67l0 -690c0,-37 30,-67 67,-67l52 0c37,0 68,30 68,67l0 690c0,37 -31,67 -68,67zm345 0l-53 0c-37,0 -67,-30 -67,-67l0 -690c0,-37 30,-67 67,-67l53 0c37,0 67,30 67,67l0 690c0,37 -30,67 -67,67z"/></g></svg>';
+}
+
+
+function getPlaySvg()
+{
+	return '
+<svg class="gm-play-icon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 1024 1280" width="26px" style="enable-background:new 0 0 1024 1024;" xml:space="preserve"><g><g><path d="M253.5,842.3V181.7c0-19.5,22-30.9,37.9-19.7l468.8,330.3c13.6,9.6,13.6,29.8,0,39.4L291.5,862    C275.5,873.2,253.5,861.8,253.5,842.3z"/><g><path d="M268.5,842.3c0-11.5,0-23.1,0-34.6c0-29.9,0-59.8,0-89.8c0-41.2,0-82.5,0-123.7c0-45.5,0-91,0-136.5     c0-42.7,0-85.4,0-128.1c0-32.8,0-65.7,0-98.5c0-15.9-0.1-31.9,0-47.8c0-0.4,0-0.9,0-1.3c0-0.1,0-0.2,0-0.2c0-0.4,0-1,0-1.3     c0.1-2.9,0.1-0.3-0.1,0.3c0.3-1.2,0.6-2.3,1-3.5c-1,3,0.5-0.5,1.2-1.6c-0.3,0.6-2.1,2.1-0.2,0.4c0.5-0.5,1.1-1.1,1.6-1.6     c1.8-1.9,0.1,0-0.4,0.3c0.6-0.3,1.3-0.8,1.9-1.2c2-1.4,0.1-0.1-0.5,0.1c1.1-0.4,2.1-0.7,3.2-1c2.5-0.8,0,0-0.6,0     c0.7,0,1.5,0,2.3-0.1c2.5-0.2,0.2-0.1-0.5-0.2c0.8,0.1,1.5,0.3,2.3,0.5c0.8,0.2,1.5,0.5,2.3,0.7c-3-1.1-0.4-0.1,0.3,0.4     c0.5,0.4,1.1,0.7,1.6,1.1c3.1,2.1,6.2,4.4,9.3,6.5c20.2,14.2,40.3,28.4,60.5,42.6c32.4,22.9,64.9,45.7,97.3,68.6     c36.9,26,73.9,52,110.8,78.1c34.2,24.1,68.4,48.2,102.6,72.3c23.4,16.5,46.8,32.9,70.1,49.4c5.4,3.8,10.8,7.6,16.2,11.4     c0.5,0.4,1,0.7,1.5,1.1c1.3,1-1.1-1.3,0,0.1c0.5,0.7,1.2,1.2,1.8,1.8c1.5,1.6-1.1-1.9-0.1,0c0.4,0.7,0.8,1.5,1.2,2.2     c0.9,1.5,0-1.8-0.2-0.2c-0.1,0.7,0.6,2.2,0.7,2.9c-0.1-0.7,0-3-0.2-0.4c0,0.8,0,1.6-0.1,2.4c0-2,0.2-1.6-0.2,0.2     c-0.1,0.5-0.8,2.9-0.2,1.1c0.7-2.2-0.8,1.5-0.8,1.5c-0.2,0.5-1.6,2.3,0.2,0c-0.5,0.7-1.2,1.2-1.7,1.9c-1.3,1.6-0.2,0.3-0.1,0.2     c-11.2,8.7-23.3,16.4-34.9,24.6c-27.5,19.4-55.1,38.8-82.6,58.2c-35.8,25.2-71.6,50.5-107.4,75.7c-36.5,25.7-72.9,51.4-109.4,77     c-29.5,20.8-58.9,41.5-88.4,62.3c-14.8,10.4-29.6,20.9-44.5,31.3c-0.4,0.3-0.9,0.6-1.3,0.9c-0.1,0.1-0.2,0.1-0.3,0.2     c-0.4,0.2-4.4,2.5-2.6,1.7c1.5-0.7-2.7,0.6-3.3,0.8c-1.8,0.6,3.3,0.3,0-0.1c-0.7-0.1-1.6-0.1-2.3-0.1c0.6,0,3.2,0.8,0.6,0     c-0.7-0.2-1.5-0.4-2.2-0.6c-1.1-0.3-1.8-1.3,0.5,0.2c-0.5-0.4-1.4-0.8-2-1.1c-2.2-1-0.3-0.1,0.3,0.4c-0.6-0.5-1.1-1-1.7-1.5     c-0.5-0.5-1-1.1-1.5-1.7c2.1,2.1,0.7,1.1,0.3,0.3c-0.3-0.7-0.8-1.4-1.1-2c1.5,2.8,0.3,0.7,0-0.3c-0.1-0.5-0.8-3-0.4-1     C269.1,846.4,268.5,842.5,268.5,842.3c-0.2-7.8-6.8-15.4-15-15c-8,0.4-15.2,6.6-15,15c0.5,18.5,13.3,35.3,32,38.4     c10.2,1.7,20.4-0.2,29-6.1c4.3-3,8.6-6,12.9-9.1c22.4-15.8,44.8-31.6,67.2-47.3c34-23.9,68-47.9,101.9-71.8     c37.8-26.6,75.5-53.2,113.3-79.8c33.3-23.5,66.6-46.9,99.9-70.4c21-14.8,42-29.6,63-44.4c3.3-2.3,6.7-4.7,10-7     c14-10.1,21.4-27.4,15.9-44.4c-3-9.2-8.9-15.9-16.6-21.4c-13.9-9.9-27.9-19.6-41.8-29.5c-29.4-20.7-58.8-41.4-88.2-62.1     c-36.9-26-73.8-52-110.6-77.9c-36.5-25.7-73-51.4-109.5-77.2c-28-19.7-55.9-39.4-83.9-59.1c-11.3-8-22.5-16.3-34-24     c-15.1-10.1-35-7.7-48.2,4.2c-8.2,7.3-12.1,18.1-12.3,28.9c-0.1,4.4,0,8.8,0,13.2c0,24.1,0,48.3,0,72.4c0,38.6,0,77.3,0,115.9     c0,45.6,0,91.3,0,136.9c0,45.2,0,90.4,0,135.5c0,37.2,0,74.3,0,111.5c0,22,0,44,0,66c0,2.9,0,5.9,0,8.8c0,7.8,6.9,15.4,15,15     C261.7,856.9,268.5,850.7,268.5,842.3z"/></g></g></g></svg>';
+}
+
+
+function getVideo($e)
+{
+	return '<div class="gm-instagram-video"><video poster="' . $e->thumbnail_url . '" muted ><source src="' . $e->media_url . '" type="video/mp4">
+	</video><button class="gm-instagram-video-paused">' . getPlaySvg() . getPauseSvg() . '</button></div>';
+}
+
+function getImage($e)
+{
+	return '<img src="' . $e->media_url . '" alt="' . $e->caption  . '" loading="lazy" />';
+}
