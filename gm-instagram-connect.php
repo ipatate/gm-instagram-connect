@@ -33,15 +33,15 @@ function render_callback($attributes, $content)
 {
 	$feed =
 		GMInstagramConnect\inc\getFeed();
-	$b = '<div class="gm-instagram-feed"><div class="gm-instagram-feed-container">';
+	$b = '<div class="gm-instagram-feed gm-carousel-grouped">';
 	foreach ($feed->data as $key => $val) {
 		$type = $val->media_type;
-		$b .= '<div class="gm-instagram-feed-element">'
+		$b .= '<div class="gm-instagram-feed-element carousel-cell">'
 			. '<a href="' . $val->permalink . '" rel="nofollow" target="_blank" title="' . $val->caption  . '">' . getSvg() . '</a>'
 			. ($type === 'VIDEO' ? getVideo($val) : getImage($val))
 			. '</div>';
 	}
-	$b .= '</div></div>';
+	$b .= '</div>';
 	return $b;
 }
 
